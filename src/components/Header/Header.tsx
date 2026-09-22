@@ -1,17 +1,15 @@
-import { type FC } from "react";
+import Link from "next/link";
 
-type HeaderProps = {};
-
-const Header: FC<HeaderProps> = () => {
+const Header = () => {
   return (
-    <header>
+    <header className="flex h-[60px] w-full items-center justify-center border-b border-border bg-header">
       <nav>
-        <ul>
+        <ul className="flex gap-4">
           <li>
-            <a href="/">Home</a>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <a href="/about">About</a>
+            <Link href="/about">About</Link>
           </li>
         </ul>
       </nav>

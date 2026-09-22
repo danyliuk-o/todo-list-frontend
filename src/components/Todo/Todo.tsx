@@ -1,7 +1,9 @@
-import { TodoList } from "./TodoList.js";
-import { TodoForm } from "./TodoForm.js";
+"use client";
+
+import { TodoList } from "./TodoList";
+import { TodoForm } from "./TodoForm";
 import { useState, type FC } from "react";
-import type { TodoListItem } from "../../types/app.js";
+import type { TodoListItem } from "@/types/app";
 
 const Todo: FC = () => {
   const [tasks, setTasks] = useState<TodoListItem[]>([]);

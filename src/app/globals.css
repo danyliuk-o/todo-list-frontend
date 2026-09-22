@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+:root {
+  --text: #6b6375;
+  --text-heading: #6b6375;
+  --bg: #ffffff;
+  --border: #e5e4e7;
+  --header: #f9f8f5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #9ca3af;
+    --text-heading: #f3f4f6;
+    --bg: #16171d;
+    --border: #2e303a;
+    --header: #1f2028;
+  }
+}
+
+@theme inline {
+  --color-text: var(--text);
+  --color-text-heading: var(--text-heading);
+  --color-bg: var(--bg);
+  --color-border: var(--border);
+  --color-header: var(--header);
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 18px/145% var(--font-sans);
+  letter-spacing: 0.18px;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+@layer base {
+  ul,
+  li {
+    list-style: none;
+  }
+
+  h1,
+  h2 {
+    font-weight: 500;
+    color: var(--text-heading);
+  }
+
+  h1 {
+    font-size: 56px;
+    letter-spacing: -1.68px;
+    margin: 32px 0;
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 118%;
+    letter-spacing: -0.24px;
+    margin: 0 0 8px;
+  }
+
+  @media (max-width: 1024px) {
+    h1 {
+      font-size: 36px;
+      margin: 20px 0;
+    }
+    h2 {
+      font-size: 20px;
+    }
+  }
+}
