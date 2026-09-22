@@ -1,16 +1,31 @@
-# React + Vite
+# Todo List Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Todo list UI built with Next.js 16 (App Router), React 19, and TypeScript, styled with Tailwind CSS v4.
 
-Currently, two official plugins are available:
+## Getting started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+- `npm run dev` — start the dev server (Turbopack)
+- `npm run build` — production build
+- `npm run start` — serve the production build
+- `npm run lint` — run ESLint
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project structure
+
+- `src/app/` — routes (App Router): `/` and `/about`
+- `src/components/` — reusable UI, including the `Todo` feature
+- `src/types/` — shared TypeScript types
+
+See `CLAUDE.md` for more detailed architecture notes.
+
+## Backend
+
+The `Todo` feature currently manages its task list in local component state; it is not yet wired to the API in the sibling [`todo-list-backend`](https://github.com/danyliuk-o/todo-list-backend) repo.
