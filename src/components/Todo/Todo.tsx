@@ -2,47 +2,32 @@
 
 import { TodoList } from "./TodoList";
 import { TodoForm } from "./TodoForm";
-import { useEffect, useState, type FC } from "react";
-import type { TodoListItem } from "@/types/app";
-import { createTodo, deleteTodo, fetchTodos } from "@/lib/api";
+import { useCreateTodo, useDeleteTodo, useTodosQuery } from "./useTodos";
+import type { FC } from "react";
 
 const Todo: FC = () => {
-  const [tasks, setTasks] = useState<TodoListItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: tasks = [], isPending, error } = useTodosQuery();
+  const createTodo = useCreateTodo();
+  const deleteTodo = useDeleteTodo();
 
-  useEffect(() => {
-    fetchTodos()
-      .then(setTasks)
-      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load tasks"))
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  const addTask = async (title: string) => {
+  const addTask = (title: string) => {
     if (title.trim() === "") return;
-    try {
-      const newTask = await createTodo(title);
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to add task");
-    }
+    createTodo.mutate(title);
   };
 
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteTodo(id);
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete task");
-    }
+  const handleDelete = (id: string) => {
+    deleteTodo.mutate(id);
   };
+
+  const errorMessage =
+    error?.message ?? createTodo.error?.message ?? deleteTodo.error?.message;
 
   return (
     <div>
       <h1>Todo List</h1>
-      {error && <p className="text-red-600">{error}</p>}
+      {errorMessage && <p className="text-red-600">{errorMessage}</p>}
       <TodoForm onSubmit={addTask} />
-      {isLoading ? (
+      {isPending ? (
         <p className="mt-4">Loading...</p>
       ) : (
         <TodoList tasks={tasks} onDelete={handleDelete} />

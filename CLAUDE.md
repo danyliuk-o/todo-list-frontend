@@ -15,11 +15,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Next.js 16 (App Router) + React 19 + TypeScript, styled with Tailwind CSS v4. Migrated from a Vite + react-router-dom setup in September 2026 — see git history for the prior structure.
 
-- `src/app/layout.tsx` — root layout: renders `<Header/>` once (shared across all routes) and imports `globals.css`.
+- `src/app/layout.tsx` — root layout: wraps everything in `<Providers>` (TanStack Query's `QueryClientProvider`), renders `<Header/>` once (shared across all routes), and imports `globals.css`.
+- `src/app/providers.tsx` — `"use client"`; creates the `QueryClient` inside `useState` (not a module constant) so each session gets its own — required for SSR safety, even though this app doesn't do server-side fetching yet.
 - Routes are folders under `src/app/`: `/` → `src/app/page.tsx`, `/about` → `src/app/about/page.tsx`. Add new routes by adding folders with a `page.tsx`.
 - Reusable UI lives under `src/components/<Name>/`. Only components using hooks/state get `"use client"` (currently `Todo.tsx` and `TodoForm.tsx`); everything else is a Server Component by default.
 - Shared types live in `src/types/app.ts` — `TodoListItem` mirrors the shape `PProject-backend`'s `/api/todos` returns (field names must match; there's no shared-types package between the two repos).
-- `src/lib/api.ts` centralizes all calls to the backend (`fetchTodos`/`createTodo`/`deleteTodo`), mirroring the repository-layer pattern used on the backend — components never call `fetch` directly.
+- `src/lib/api.ts` centralizes the raw `fetch` calls to the backend (`fetchTodos`/`createTodo`/`deleteTodo`), mirroring the repository-layer pattern used on the backend. `src/components/Todo/useTodos.ts` wraps those in TanStack Query (`useTodosQuery`, `useCreateTodo`, `useDeleteTodo`) — components use the hooks, never `@/lib/api` or `fetch` directly. Data fetching for a new feature should follow the same split: plain fetch functions in `lib/api.ts`, a `useTanStack`-hooks file next to the feature's components.
 - `src/app/globals.css`: Tailwind v4 is CSS-first (no `tailwind.config.js`). Design tokens (light/dark colors, driven by `prefers-color-scheme`) are defined as plain CSS custom properties in `:root`, then re-exposed to Tailwind via an `@theme inline` block (e.g. `--text` → `text-text`, `--header` → `bg-header`). Base typography (`h1`/`h2`) and list resets live in `@layer base`; everything else uses Tailwind utility classes directly in components.
 - Path alias `@/*` → `./src/*` (see `tsconfig.json`).
 
