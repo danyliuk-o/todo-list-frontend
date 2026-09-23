@@ -3,7 +3,7 @@
 import { useState, type FC } from "react";
 
 type TodoFormProps = {
-  onSubmit: (text: string) => void;
+  onSubmit: (title: string) => void | Promise<void>;
 };
 
 export const TodoForm: FC<TodoFormProps> = ({ onSubmit }) => {

@@ -1,5 +1,6 @@
+// Matches the shape returned by PProject-backend's /api/todos
 export type TodoListItem = {
   id: string;
-  text: string;
+  title: string;
   completed: boolean;
 };

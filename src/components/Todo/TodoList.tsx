@@ -19,7 +19,7 @@ export const TodoList: FC<TodoListProps> = (props) => {
               key={task.id}
               className="flex items-center justify-between rounded border border-border px-3 py-2"
             >
-              <div>{task.text}</div>
+              <div>{task.title}</div>
               <div>
                 <button
                   onClick={(e) => {
