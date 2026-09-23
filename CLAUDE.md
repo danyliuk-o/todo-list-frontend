@@ -18,11 +18,12 @@ Next.js 16 (App Router) + React 19 + TypeScript, styled with Tailwind CSS v4. Mi
 - `src/app/layout.tsx` — root layout: renders `<Header/>` once (shared across all routes) and imports `globals.css`.
 - Routes are folders under `src/app/`: `/` → `src/app/page.tsx`, `/about` → `src/app/about/page.tsx`. Add new routes by adding folders with a `page.tsx`.
 - Reusable UI lives under `src/components/<Name>/`. Only components using hooks/state get `"use client"` (currently `Todo.tsx` and `TodoForm.tsx`); everything else is a Server Component by default.
-- Shared types live in `src/types/app.ts`.
+- Shared types live in `src/types/app.ts` — `TodoListItem` mirrors the shape `PProject-backend`'s `/api/todos` returns (field names must match; there's no shared-types package between the two repos).
+- `src/lib/api.ts` centralizes all calls to the backend (`fetchTodos`/`createTodo`/`deleteTodo`), mirroring the repository-layer pattern used on the backend — components never call `fetch` directly.
 - `src/app/globals.css`: Tailwind v4 is CSS-first (no `tailwind.config.js`). Design tokens (light/dark colors, driven by `prefers-color-scheme`) are defined as plain CSS custom properties in `:root`, then re-exposed to Tailwind via an `@theme inline` block (e.g. `--text` → `text-text`, `--header` → `bg-header`). Base typography (`h1`/`h2`) and list resets live in `@layer base`; everything else uses Tailwind utility classes directly in components.
 - Path alias `@/*` → `./src/*` (see `tsconfig.json`).
 
-The `Todo` feature (`src/components/Todo/`) currently manages its task list in local component state only; it is not yet wired to the backend API in the sibling `PProject-backend` repo.
+The `Todo` feature (`src/components/Todo/`) loads its list from `PProject-backend` on mount and calls it for add/delete — **the backend must be running on `http://localhost:4000` (see `PProject-backend/CLAUDE.md`) for the Todo page to work in dev.** Override the API origin via `NEXT_PUBLIC_API_URL` if the backend runs elsewhere.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
