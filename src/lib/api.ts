@@ -1,4 +1,4 @@
-import type { TodoListItem } from "@/types/app";
+import type { Post, TodoListItem } from "@/types/app";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
@@ -29,4 +29,8 @@ export function createTodo(title: string): Promise<TodoListItem> {
 
 export function deleteTodo(id: string): Promise<{ message: string }> {
   return request(`/api/todos/${id}`, { method: "DELETE" });
+}
+
+export function fetchPosts(): Promise<Post[]> {
+  return request("/api/posts");
 }
