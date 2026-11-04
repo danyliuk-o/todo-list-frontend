@@ -1,6 +1,7 @@
 "use client";
 
 import type { FC } from "react";
+import Image from "next/image";
 import { usePostsQuery } from "./usePosts";
 
 const Blog: FC = () => {
@@ -17,6 +18,18 @@ const Blog: FC = () => {
           key={post.id}
           className="rounded-lg border border-border bg-header p-4 text-left"
         >
+          {post.image_url && (
+            <div className="relative mb-3 aspect-video overflow-hidden rounded-md">
+              {/* unoptimized: the image comes straight from Strapi, not through Next's optimizer */}
+              <Image
+                src={post.image_url}
+                alt={post.title}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
+          )}
           <h2>{post.title}</h2>
           <p>{post.excerpt}</p>
         </li>
